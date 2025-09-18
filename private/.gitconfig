@@ -1,0 +1,5 @@
+# Real user/signing config goes here. Do not commit to public.
+[user]
+    name = Jonathan A. Kimball
+    email = 14268609+JAKimball@users.noreply.github.com
+    signingkey = DF1CB4D8A1236B66
