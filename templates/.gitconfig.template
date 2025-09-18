@@ -1,0 +1,4 @@
+# Template: fill in user.email, signing key, and any private settings in -private repo
+[user]
+    name = YOUR NAME
+    email = YOUR EMAIL
