@@ -303,9 +303,9 @@ Reference doc: wsl-ubuntu-config-repository-workflow.md (adapt for Windows host 
 
 Today (Initial commits)
 
-- [ ] Create public repos and push minimal scaffolds (Ubuntu guest, Windows host)
-- [ ] Create private repos using shared history; configure remotes; push placeholders
-- [ ] Enable branch protections on public repos
+- [x] Create public repos and push minimal scaffolds (Ubuntu guest, Windows host)
+- [x] Create private repos using shared history; configure remotes; push placeholders
+- [x] Enable branch protections on public repos
 
 Next 1–2 days
 
