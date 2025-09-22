@@ -31,6 +31,11 @@ This plan guides initial repo creation today, minimal scaffolding, and migration
 - Ensure global Git config is set (pull.rebase = true, push.autoSetupRemote = true).
 - SSH auth to GitHub ready.
 - Working directory example: `~/projects/systems`
+- Decide hooks dir and enable it:
+  - Set repo hooks path: `git config core.hooksPath .githooks`
+  - Ensure hooks are executable and committed:
+    - Linux/WSL: `chmod +x .githooks/pre-commit .githooks/pre-push && git add -A && git commit -m "chore: make hooks executable"`
+    - Windows (if core.filemode=false): `git update-index --chmod=+x .githooks/pre-commit && git update-index --chmod=+x .githooks/pre-push && git commit -m "chore: make hooks executable"`
 
 ### 1. Create Public Repositories (empty on GitHub, then clone)
 
@@ -208,6 +213,20 @@ Set-Location ..
 
 4. Execution (short loop)
    - Start with low-risk public scripts (utilities with no secrets)
+   - Publish selected files “as-is” from private to public:
+     ```bash
+     git fetch upstream
+     git switch -c feature/publish-safe upstream/main
+     git restore -s main -- path/one path/two
+     git add path/one path/two
+     git commit -m "feat: publish selected files from private"
+     git push upstream feature/publish-safe
+     ```
+   - Or cherry-pick existing public-only commits onto upstream/main:
+     ```bash
+     git switch -c feature/publish-safe upstream/main
+     git cherry-pick <sha1> [<sha2>...]
+     ```
    - Port profile system scaffolding public-first; wire private bits in -private
    - Move CLAUDE.md content into docs/ with repository-specific adjustments
 
