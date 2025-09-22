@@ -1,0 +1,19 @@
+# Local Git overrides. To include, run from repo root:
+#   git config --local include.path ../scripts/.gitconfig.local
+# The path is considered to be relative to the configuration file in which the include directive was found
+
+[core]
+    hooksPath = .githooks # Use custom hooks directory.
+
+[pull]
+    rebase = true     # Use rebase instead of merge on git pull by default.
+
+[push]
+    autoSetupRemote = true # Automatically set the remote tracking branch on first push.
+    default = current  # Push the current branch to the same name on the remote.
+
+[fetch]
+    prune = true     # Automatically remove remote-tracking references that no longer exist on the remote.
+
+[rebase]
+    autoStash = true # Stash any local changes before rebasing and apply them after.

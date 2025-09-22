@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -euo pipefail
+remote_name="$1"
+current_branch="$(git rev-parse --abbrev-ref HEAD)"
+if [[ "$remote_name" == "upstream" && "$current_branch" == "main" ]]; then
+  echo "Blocked: push to upstream main. Open a PR instead." >&2
+  exit 1
+fi
