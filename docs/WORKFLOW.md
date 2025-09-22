@@ -191,6 +191,35 @@ These settings ensure:
 
 ---
 
+## Git Hooks and Executable Bit
+
+- Git tracks and preserves only the executable bit on files (100755 vs 100644). Other permission bits aren’t versioned.
+- If you see: "The '.githooks/<hook>' hook was ignored because it's not set as executable", make the hook executable and commit the change.
+
+Recommended setup:
+
+```bash
+# Tell Git to use the repo's hooks directory
+git config core.hooksPath .githooks
+
+# Mark hooks executable (Linux/WSL)
+chmod +x .githooks/pre-*
+
+# Commit the mode changes so the exec bit is preserved
+git add .githooks/pre-*
+git commit -m "chore: make hooks executable"
+
+# On Windows (if core.filemode=false), set the bit via index:
+git update-index --chmod=+x .githooks/pre-commit
+git update-index --chmod=+x .githooks/pre-push
+```
+
+Notes
+
+- The exec bit is stored in Git even if the underlying filesystem doesn’t support it; Windows may require update-index as shown.
+
+---
+
 ## For Other Users
 
 ### Using the Public Repository
@@ -323,3 +352,37 @@ Trade-offs
 
 - Chezmoi: templating, per-host data, encryption; safer for public templates.
 - Stow: simple, fast symlinks; best when everything can be public or split manually without templates.
+
+---
+
+### Publish selected files “as-is” to upstream
+
+Goal: send specific public-safe files from your private repo to the public upstream without editing them and without merging private history.
+
+```bash
+# Start clean from public main
+git fetch upstream
+git switch -c feature/publish-safe upstream/main
+
+# Bring specific paths exactly as they are on your private main
+# (Git 2.23+)
+git restore -s main -- path/to/file1 path/to/dir2
+# Older Git:
+# git checkout main -- path/to/file1 path/to/dir2
+
+# Stage and commit only those paths
+git add path/to/file1 path/to/dir2
+git commit -m "feat: publish selected files from private (no private data)"
+
+# Push branch to public upstream and open PR
+git push upstream feature/publish-safe
+```
+
+Notes
+
+- If a path is identical to upstream, there will be nothing to commit (no diff).
+- To move existing public-safe commits instead, cherry-pick them onto a branch from upstream/main:
+  ```bash
+  git switch -c feature/publish-safe upstream/main
+  git cherry-pick <sha1> [<sha2>...]
+  ```

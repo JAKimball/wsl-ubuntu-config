@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -euo pipefail
+if [[ -n "${GIT_COMMITTER_DATE:-}" ]]; then
+  echo "Error: COMMITTER_DATE is set. Unset before committing." >&2
+  echo "Committer Date: ${GIT_COMMITTER_DATE:-}" >&2
+  exit 1
+fi
