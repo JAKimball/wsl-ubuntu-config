@@ -12,6 +12,9 @@
     autoSetupRemote = true # Automatically set the remote tracking branch on first push.
     default = current  # Push the current branch to the same name on the remote.
 
+[remote]
+    pushDefault = origin # Default plain `git push` to the private remote in split public/private clones.
+
 [fetch]
     prune = true     # Automatically remove remote-tracking references that no longer exist on the remote.
 

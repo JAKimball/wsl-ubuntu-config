@@ -1,7 +1,20 @@
 #!/usr/bin/env bash
 set -euo pipefail
+
 if [[ -n "${GIT_COMMITTER_DATE:-}" ]]; then
   echo "Error: GIT_COMMITTER_DATE is set. Unset before committing." >&2
   echo "Committer Date: ${GIT_COMMITTER_DATE:-}" >&2
   exit 1
+fi
+
+current_branch="$(git symbolic-ref --quiet --short HEAD 2>/dev/null || true)"
+origin_url="$(git remote get-url origin 2>/dev/null || true)"
+upstream_url="$(git remote get-url upstream 2>/dev/null || true)"
+
+if [[ "$current_branch" == "main" && -n "$origin_url" ]]; then
+  if [[ -z "$upstream_url" || "$origin_url" == "$upstream_url" ]]; then
+    echo "Error: refusing to commit on main when origin appears to be the public remote." >&2
+    echo "Create a feature branch first, or bootstrap a private clone so origin=private and upstream=public." >&2
+    exit 1
+  fi
 fi
