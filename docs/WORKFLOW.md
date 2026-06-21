@@ -246,7 +246,7 @@ Follow the same pattern:
 1. Create an empty private repository.
 2. Clone your own public fork and enter it.
 3. Run `./scripts/bootstrap-private-fork.sh git@github.com:yourusername/wsl-ubuntu-config-private.git`.
-4. Verify `origin` points at your private repo and `upstream` points at your public fork.
+4. Verify `origin` points at your private repo and `upstream` points at your public fork (`yourusername/wsl-ubuntu-config`, not the original repo).
 5. Add your private customizations.
 
 ### Contributing Back
