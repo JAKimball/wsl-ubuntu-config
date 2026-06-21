@@ -230,7 +230,8 @@ Notes
 ### Using the Public Repository
 
 ```bash
-# Clone the public repository
+# Fork the original public repository to your own GitHub account first.
+# Then clone your fork.
 git clone git@github.com:yourusername/wsl-ubuntu-config.git
 cd wsl-ubuntu-config
 
@@ -243,17 +244,17 @@ cd wsl-ubuntu-config
 Follow the same pattern:
 
 1. Create an empty private repository.
-2. Clone the public repository and enter it.
+2. Clone your own public fork and enter it.
 3. Run `./scripts/bootstrap-private-fork.sh git@github.com:yourusername/wsl-ubuntu-config-private.git`.
-4. Verify `origin` points at your private repo and `upstream` points at the public repo.
+4. Verify `origin` points at your private repo and `upstream` points at your public fork.
 5. Add your private customizations.
 
 ### Contributing Back
 
 1. Create feature branch in your private repo
 2. Make changes to public-appropriate files only
-3. Push feature branch explicitly to upstream: `git push upstream <branch-name>`
-4. Create Pull Request to original public repository
+3. Push feature branch to your public fork: `git push upstream <branch-name>`
+4. Create Pull Request from your fork to the original public repository
 
 ---
 
