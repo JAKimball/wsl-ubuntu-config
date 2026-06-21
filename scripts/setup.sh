@@ -17,6 +17,7 @@ fi
 
 # In private clones, retarget local main to origin/main after the private origin exists.
 if git show-ref --verify --quiet refs/heads/main \
+	&& git remote get-url origin >/dev/null 2>&1 \
 	&& git show-ref --verify --quiet refs/remotes/origin/main \
 	&& git remote get-url upstream >/dev/null 2>&1; then
 	git branch --set-upstream-to=origin/main main >/dev/null
