@@ -243,7 +243,7 @@ cd wsl-ubuntu-config
 
 Follow the same pattern:
 
-In this private clone, `upstream` points to your own public fork (`yourusername/wsl-ubuntu-config`), not the original repository, so it remains a writable target for contribution branches.
+In the resulting private clone, `upstream` points to your own public fork (`yourusername/wsl-ubuntu-config`), not the original repository, so it remains a writable target for contribution branches.
 
 1. Create an empty private repository.
 2. Clone your own public fork and enter it.

@@ -5,8 +5,8 @@ usage() {
   cat >&2 <<'EOF'
 Usage: scripts/bootstrap-private-fork.sh <private-origin-url>
 
-Run this from inside a clone of the public repository after creating an empty
-private repository. The script renames the current public origin remote to
+Run this from inside a clone of your own public fork after creating an empty
+private repository. The script renames that fork's origin remote to
 upstream, adds the private repository as origin, pushes main, retargets local
 main to origin/main, and applies repo-local Git settings.
 EOF
