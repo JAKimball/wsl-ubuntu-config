@@ -184,7 +184,7 @@ Your existing git config enhances this workflow:
 [push]
     autoSetupRemote = true        # Auto-setup tracking branches
 [remote]
-  pushDefault = origin          # Plain `git push` defaults to the private remote
+    pushDefault = origin          # Plain `git push` defaults to the private remote
 [fetch]
     prune = true                  # Clean remote refs
 ```
