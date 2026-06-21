@@ -111,9 +111,7 @@ git clone git@github.com:yourusername/wsl-ubuntu-config.git wsl-ubuntu-config-pr
 cd wsl-ubuntu-config-private
 git remote rename origin upstream
 git remote add origin git@github.com:yourusername/wsl-ubuntu-config-private.git
-git push origin main
-# Retarget local main to the private repo so plain `git push` stays private
-git branch --set-upstream-to=origin/main main
+git push -u origin main
 # Private-only placeholders
 mkdir -p private
 cat > private/.gitconfig << 'EOF'
