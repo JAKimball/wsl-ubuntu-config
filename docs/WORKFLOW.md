@@ -54,8 +54,8 @@ cd wsl-ubuntu-config-private
 git remote rename origin upstream
 git remote add origin git@github.com:yourusername/wsl-ubuntu-config-private.git
 
-# Push shared history to private repo
-git push origin main
+# Push shared history to private repo and set main to track origin/main
+git push -u origin main
 
 # Add private customizations
 # Commit and push private changes
@@ -86,7 +86,8 @@ Your day-to-day work happens in the private repository:
 cd ~/projects/systems/wsl-ubuntu-config-private/
 
 # Pull updates from public upstream
-git pull upstream main
+git fetch upstream
+git rebase upstream/main
 
 # Make your changes (public and private)
 # Commit and push to private repo
@@ -179,6 +180,8 @@ Your existing git config enhances this workflow:
     rebase = true                 # Clean linear history
 [push]
     autoSetupRemote = true        # Auto-setup tracking branches
+[remote]
+    pushDefault = origin          # Plain `git push` defaults to the private remote
 [fetch]
     prune = true                  # Clean remote refs
 ```
@@ -187,6 +190,7 @@ These settings ensure:
 
 - Clean rebasing when pulling from upstream
 - Automatic remote tracking for feature branches
+- Private `origin` remains the default push target in split public/private clones
 - Pruned remote references
 
 ---
@@ -217,6 +221,7 @@ git update-index --chmod=+x .githooks/pre-push
 Notes
 
 - The exec bit is stored in Git even if the underlying filesystem doesn’t support it; Windows may require update-index as shown.
+- The pre-commit hook can block commits on `main` when `origin` still points at the public repo.
 
 ---
 
@@ -225,34 +230,69 @@ Notes
 ### Using the Public Repository
 
 ```bash
-# Clone the public repository
+# Fork the original public repository to your own GitHub account first.
+# Then clone your fork.
 git clone git@github.com:yourusername/wsl-ubuntu-config.git
 cd wsl-ubuntu-config
 
-# Review and customize template files
-cp .gitconfig.template .gitconfig
-# Edit .gitconfig with your details
-
-# Run setup script (if provided)
-./setup.sh
+# Apply repo-local Git settings
+./scripts/setup.sh
 ```
 
 ### Creating Your Own Private Fork
 
 Follow the same pattern:
 
-1. Fork the public `wsl-ubuntu-config` repository
-2. Clone your fork as foundation for private repo
-3. Create separate private repository with shared history
-4. Configure remotes (upstream = original public, origin = your private)
-5. Add your private customizations
+1. Create an empty private repository.
+2. Clone your own public fork and enter it.
+3. Run `./scripts/bootstrap-private-fork.sh git@github.com:yourusername/wsl-ubuntu-config-private.git`.
+4. Verify remotes with `git remote -v`.
+5. Confirm `origin` points at your private repo and `upstream` points at your public fork (`yourusername/wsl-ubuntu-config`, not the original repo).
+6. Add your private customizations.
+
+Note: In the resulting private clone, `upstream` points to your own public fork (`yourusername/wsl-ubuntu-config`), not the original repository, so it remains a writable target for contribution branches.
 
 ### Contributing Back
 
 1. Create feature branch in your private repo
 2. Make changes to public-appropriate files only
-3. Push feature branch to your public fork
-4. Create Pull Request to original public repository
+3. Push feature branch to your public fork: `git push upstream <branch-name>`
+4. Create Pull Request from your fork to the original public repository
+
+---
+
+### Publish selected files “as-is” to upstream
+
+Goal: send specific public-safe files from your private repo to the public upstream without editing them and without merging private history.
+
+```bash
+# Start clean from public main
+git fetch upstream
+git switch -c feature/publish-safe upstream/main
+
+# Bring specific paths exactly as they are on your private main
+# (Git 2.23+)
+git restore -s main -- path/to/file1 path/to/dir2
+# Older Git:
+# git checkout main -- path/to/file1 path/to/dir2
+
+# Stage and commit only those paths
+git add path/to/file1 path/to/dir2
+git commit -m "feat: publish selected files from private (no private data)"
+
+# Push branch to public upstream and open PR
+git push upstream feature/publish-safe
+```
+
+Notes
+
+- If a path is identical to upstream, there will be nothing to commit (no diff).
+- To move existing public-safe commits instead, cherry-pick them onto a branch from upstream/main:
+
+  ```bash
+  git switch -c feature/publish-safe upstream/main
+  git cherry-pick <sha1> [<sha2>...]
+  ```
 
 ---
 
@@ -352,37 +392,3 @@ Trade-offs
 
 - Chezmoi: templating, per-host data, encryption; safer for public templates.
 - Stow: simple, fast symlinks; best when everything can be public or split manually without templates.
-
----
-
-### Publish selected files “as-is” to upstream
-
-Goal: send specific public-safe files from your private repo to the public upstream without editing them and without merging private history.
-
-```bash
-# Start clean from public main
-git fetch upstream
-git switch -c feature/publish-safe upstream/main
-
-# Bring specific paths exactly as they are on your private main
-# (Git 2.23+)
-git restore -s main -- path/to/file1 path/to/dir2
-# Older Git:
-# git checkout main -- path/to/file1 path/to/dir2
-
-# Stage and commit only those paths
-git add path/to/file1 path/to/dir2
-git commit -m "feat: publish selected files from private (no private data)"
-
-# Push branch to public upstream and open PR
-git push upstream feature/publish-safe
-```
-
-Notes
-
-- If a path is identical to upstream, there will be nothing to commit (no diff).
-- To move existing public-safe commits instead, cherry-pick them onto a branch from upstream/main:
-  ```bash
-  git switch -c feature/publish-safe upstream/main
-  git cherry-pick <sha1> [<sha2>...]
-  ```

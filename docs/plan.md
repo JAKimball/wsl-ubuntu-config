@@ -111,7 +111,7 @@ git clone git@github.com:yourusername/wsl-ubuntu-config.git wsl-ubuntu-config-pr
 cd wsl-ubuntu-config-private
 git remote rename origin upstream
 git remote add origin git@github.com:yourusername/wsl-ubuntu-config-private.git
-git push origin main
+git push -u origin main
 # Private-only placeholders
 mkdir -p private
 cat > private/.gitconfig << 'EOF'
@@ -133,7 +133,7 @@ git clone git@github.com:yourusername/wsl-windows-host-config.git wsl-windows-ho
 Set-Location wsl-windows-host-config-private
 git remote rename origin upstream
 git remote add origin git@github.com:yourusername/wsl-windows-host-config-private.git
-git push origin main
+git push -u origin main
 
 # Private-only placeholders
 New-Item -ItemType Directory -Path private -Force | Out-Null
@@ -163,6 +163,7 @@ Set-Location ..
 - README.md
 - docs/WORKFLOW.md
 - templates/.gitconfig.template
+- scripts/bootstrap-private-fork.sh
 - scripts/setup.sh
 - Optional later: docs/tooling/ (decision, usage), .editorconfig, .gitattributes, .gitignore
 
@@ -299,6 +300,7 @@ Notes
 ## Git Workflow Notes
 
 - Use pull.rebase = true for linear history
+- Use remote.pushDefault = origin so plain `git push` defaults to the private repo in split clones
 - Private repos: upstream = public, origin = private
 - Contributions flow:
   - Make public-safe changes in feature branches locally
