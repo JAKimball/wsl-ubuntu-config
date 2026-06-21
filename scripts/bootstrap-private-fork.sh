@@ -6,7 +6,7 @@ usage() {
 Usage: scripts/bootstrap-private-fork.sh <private-origin-url>
 
 Run this from inside a clone of your own public fork after creating an empty
-private repository. The script renames that fork's origin remote to
+private repository. The script renames your fork's original origin remote to
 upstream, adds the private repository as origin, pushes main, retargets local
 main to origin/main, and applies repo-local Git settings.
 EOF
