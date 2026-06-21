@@ -243,12 +243,12 @@ cd wsl-ubuntu-config
 
 Follow the same pattern:
 
-In this private clone, `upstream` is intentionally your own public fork so it remains a writable target for contribution branches.
+In this private clone, `upstream` points to your own public fork (`yourusername/wsl-ubuntu-config`), not the original repository, so it remains a writable target for contribution branches.
 
 1. Create an empty private repository.
 2. Clone your own public fork and enter it.
 3. Run `./scripts/bootstrap-private-fork.sh git@github.com:yourusername/wsl-ubuntu-config-private.git`.
-4. Verify `origin` points at your private repo and `upstream` points at your public fork (`yourusername/wsl-ubuntu-config`, not the original repo).
+4. Verify `origin` points at your private repo and `upstream` points at your public fork (`yourusername/wsl-ubuntu-config`, not the original repo) with `git remote -v`.
 5. Add your private customizations.
 
 ### Contributing Back
