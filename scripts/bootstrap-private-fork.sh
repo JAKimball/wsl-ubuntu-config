@@ -46,8 +46,7 @@ else
   git remote add origin "$private_origin_url"
 fi
 
-git push origin main
-git branch --set-upstream-to=origin/main main
+git push -u origin main
 "$repo_root/scripts/setup.sh"
 
 cat <<EOF
