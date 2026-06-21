@@ -54,11 +54,8 @@ cd wsl-ubuntu-config-private
 git remote rename origin upstream
 git remote add origin git@github.com:yourusername/wsl-ubuntu-config-private.git
 
-# Push shared history to private repo
-git push origin main
-
-# Retarget local main to the private repo so plain `git push` stays private
-git branch --set-upstream-to=origin/main main
+# Push shared history to private repo and set main to track origin/main
+git push -u origin main
 
 # Add private customizations
 # Commit and push private changes
