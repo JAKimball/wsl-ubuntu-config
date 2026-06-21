@@ -11,8 +11,15 @@ current_branch="$(git symbolic-ref --quiet --short HEAD 2>/dev/null || true)"
 origin_url="$(git remote get-url origin 2>/dev/null || true)"
 upstream_url="$(git remote get-url upstream 2>/dev/null || true)"
 
+normalize_remote_url() {
+  sed -E 's#^(ssh://)?git@##; s#^https?://##; s#:#/#; s#\.git$##' <<<"$1"
+}
+
+origin_norm="$(normalize_remote_url "$origin_url")"
+upstream_norm="$(normalize_remote_url "$upstream_url")"
+
 if [[ "$current_branch" == "main" && -n "$origin_url" ]]; then
-  if [[ -z "$upstream_url" || "$origin_url" == "$upstream_url" ]]; then
+  if [[ -z "$upstream_url" || "$origin_norm" == "$upstream_norm" ]]; then
     echo "Error: refusing to commit on main when origin appears to be the public remote." >&2
     echo "Create a feature branch first, or bootstrap a private clone so origin=private and upstream=public." >&2
     exit 1
