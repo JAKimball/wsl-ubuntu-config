@@ -133,9 +133,7 @@ git clone git@github.com:yourusername/wsl-windows-host-config.git wsl-windows-ho
 Set-Location wsl-windows-host-config-private
 git remote rename origin upstream
 git remote add origin git@github.com:yourusername/wsl-windows-host-config-private.git
-git push origin main
-# Retarget local main to the private repo so plain `git push` stays private
-git branch --set-upstream-to=origin/main main
+git push -u origin main
 
 # Private-only placeholders
 New-Item -ItemType Directory -Path private -Force | Out-Null
