@@ -291,7 +291,7 @@ Notes
 - Prefer this file-based flow when the same public-safe changes already exist on your private `main`. It avoids creating a second commit with overlapping content.
 - If you start the public branch from `upstream/main` and do the public-safe work there first, any GitHub merge strategy can work. If the same change already exists as a different commit on private `main`, squash merge makes the later sync more conflict-prone because Git only sees two unrelated commits with similar content.
 - Only cherry-pick onto a branch from `upstream/main` when the commit does not also need to remain on private `main`, or when you are prepared to drop or rebuild the private-side copy after the PR merges.
-- If you do cherry-pick an existing public-safe commit, treat `upstream/main` as the canonical copy after merge and sync private by rebasing onto `upstream/main`. If the same change also exists as an older private commit, remove that duplicate via an interactive rebase/reset (this rewrites history and may require a force-push to `origin/main`).
+- If you do cherry-pick an existing public-safe commit, treat `upstream/main` as the canonical copy after merge and sync private by rebasing onto `upstream/main`. If the same change also exists as an older private commit, drop that duplicate commit during an interactive rebase of your private `main` (this rewrites history and may require a force-push to `origin/main`; avoid doing this on branches other people depend on).
 - To move existing public-safe commits instead, cherry-pick them onto a branch from upstream/main:
 
   ```bash
