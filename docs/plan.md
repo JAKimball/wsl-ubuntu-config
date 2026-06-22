@@ -225,11 +225,11 @@ Set-Location ..
      git push upstream feature/publish-safe
      ```
 
-   - Or cherry-pick existing public-only commits onto `upstream/main`:
-     ```bash
-     git switch -c feature/publish-safe upstream/main
-     git cherry-pick <sha1> [<sha2>...]
-     ```
+- Or cherry-pick existing public-only commits onto a branch from `upstream/main`:
+  ```bash
+  git switch -c feature/publish-safe upstream/main
+  git cherry-pick <sha1> [<sha2>...]
+  ```
 
    - Use that cherry-pick path only when those commits will not also remain as the long-term copy on private `main`; otherwise prefer restoring the file contents onto a branch from `upstream/main`.
    - Port profile system scaffolding public-first; wire private bits in -private
