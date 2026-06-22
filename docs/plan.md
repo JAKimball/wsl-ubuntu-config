@@ -214,6 +214,7 @@ Set-Location ..
 
 4. Execution (short loop)
    - Start with low-risk public scripts (utilities with no secrets)
+   - For changes you intend to publish, start the working branch from `upstream/main` rather than from private `main`.
    - Publish selected files “as-is” from private to public:
      ```bash
      git fetch upstream
@@ -223,11 +224,14 @@ Set-Location ..
      git commit -m "feat: publish selected files from private"
      git push upstream feature/publish-safe
      ```
-   - Or cherry-pick existing public-only commits onto upstream/main:
-     ```bash
-     git switch -c feature/publish-safe upstream/main
-     git cherry-pick <sha1> [<sha2>...]
-     ```
+
+- Or cherry-pick existing public-only commits onto a branch from `upstream/main`:
+  ```bash
+  git switch -c feature/publish-safe upstream/main
+  git cherry-pick <sha1> [<sha2>...]
+  ```
+
+   - Use that cherry-pick path only when those commits will not also remain as the long-term copy on private `main`; otherwise prefer restoring the file contents onto a branch from `upstream/main`.
    - Port profile system scaffolding public-first; wire private bits in -private
    - Move CLAUDE.md content into docs/ with repository-specific adjustments
 
