@@ -98,12 +98,13 @@ git push origin main
 
 ### Contributing Back to Public Repository
 
-Use feature branches for public contributions:
+Use feature branches for public contributions, but branch from `upstream/main` for work that is intended to merge back cleanly:
 
 ```bash
-# In private repo, create feature branch
+# In private repo, start from public main
 cd ~/projects/systems/wsl-ubuntu-config-private/
-git checkout -b feature/new-utility
+git fetch upstream
+git switch -c feature/new-utility upstream/main
 
 # Make changes to PUBLIC-APPROPRIATE files only
 # Examples: generic aliases, utility functions, documentation
@@ -287,12 +288,18 @@ git push upstream feature/publish-safe
 Notes
 
 - If a path is identical to upstream, there will be nothing to commit (no diff).
+- Prefer this file-based flow when the same public-safe changes already exist on your private `main`. It avoids creating a second commit with overlapping content.
+- If you start the public branch from `upstream/main` and do the public-safe work there first, any GitHub merge strategy can work. If the same change already exists as a different commit on private `main`, squash merge makes the later sync more conflict-prone because Git only sees two unrelated commits with similar content.
+- Only cherry-pick onto a branch from `upstream/main` when the commit does not also need to remain on private `main`, or when you are prepared to drop or rebuild the private-side copy after the PR merges.
+- If you do cherry-pick an existing public-safe commit, treat `upstream/main` as the canonical copy after merge and sync private by rebasing onto `upstream/main`. If the same change also exists as an older private commit, remove that duplicate via an interactive rebase/reset (this rewrites history and may require a force-push to `origin/main`).
 - To move existing public-safe commits instead, cherry-pick them onto a branch from upstream/main:
 
   ```bash
   git switch -c feature/publish-safe upstream/main
   git cherry-pick <sha1> [<sha2>...]
   ```
+
+- A safer default is: commit private-only work on private `main`; commit public-intended work on a branch created from `upstream/main`.
 
 ---
 
