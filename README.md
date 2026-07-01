@@ -26,6 +26,4 @@ Run setup from this repository:
 
 Manual Stow command (equivalent):
 
-```bash
-stow --dir "$PWD" --target "$HOME" core shell git
-```
+    stow --restow --dir "$PWD" --target "$HOME" core shell git
