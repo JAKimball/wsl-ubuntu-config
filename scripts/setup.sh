@@ -24,4 +24,24 @@ if git show-ref --verify --quiet refs/heads/main \
 fi
 
 echo "Configured repo-local Git settings from scripts/.gitconfig.local."
-echo "WSL Ubuntu setup placeholder. Installs will be added after tool decision (chezmoi/Dotbot)."
+
+if ! command -v stow >/dev/null 2>&1; then
+	echo "GNU Stow not found; skipping dotfile symlink step."
+	echo "Install stow and rerun scripts/setup.sh to link packages into \$HOME."
+	exit 0
+fi
+
+stow_packages=()
+for package in core shell git; do
+	if [[ -d "$repo_root/$package" ]]; then
+		stow_packages+=("$package")
+	fi
+done
+
+if [[ ${#stow_packages[@]} -eq 0 ]]; then
+	echo "No Stow packages found under $repo_root."
+	exit 0
+fi
+
+stow --dir "$repo_root" --target "$HOME" "${stow_packages[@]}"
+echo "Stowed packages to $HOME: ${stow_packages[*]}"
