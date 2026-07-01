@@ -43,5 +43,5 @@ if [[ ${#stow_packages[@]} -eq 0 ]]; then
 	exit 0
 fi
 
-stow --dir "$repo_root" --target "$HOME" "${stow_packages[@]}"
+stow --restow --dir "$repo_root" --target "$HOME" "${stow_packages[@]}"
 echo "Stowed packages to $HOME: ${stow_packages[*]}"
