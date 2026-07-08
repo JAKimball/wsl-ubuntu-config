@@ -199,7 +199,7 @@ These settings ensure:
 ## Git Hooks and Executable Bit
 
 - Git tracks and preserves only the executable bit on files (100755 vs 100644). Other permission bits aren’t versioned.
-- If you see: "The '.githooks/<hook>' hook was ignored because it's not set as executable", make the hook executable and commit the change.
+- If you see: "The '.githooks/\<hook>' hook was ignored because it's not set as executable", make the hook executable and commit the change.
 
 Recommended setup:
 
