@@ -193,7 +193,7 @@ documented in pain point #4.
 | Maintenance | Medium — more files to maintain |
 | Discoverability | Medium — users must know the scripts exist |
 
-**Verdict:** ✅ Adopted for complex logic (especially `sync-from-upstream.sh`, which
+**Verdict:** ✅ Preferred for complex logic (planned; these scripts aren’t in-repo yet), especially `sync-from-upstream.sh`, which
 needs the verify-before-pull-rebase logic from pain point #10).
 
 ---
