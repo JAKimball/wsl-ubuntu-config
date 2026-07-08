@@ -2,7 +2,7 @@
 
 > Consolidated, deduplicated record of pain points, mistakes, and lessons from the
 > public/private split-repo workflow. Merged from three independent session notes
-> (`lessons-learned.md`, `lessons-learned-addendum-1.md`, `lessons-learned-addendum-2.md`).
+> (`docs/archive/lessons-learned-original.md`, `docs/archive/lessons-learned-addendum-1.md`, `docs/archive/lessons-learned-addendum-2.md`).
 >
 > This document is the **canonical lessons-learned reference**. The original addenda
 > are preserved under `docs/archive/` for historical context. Alternative approaches
